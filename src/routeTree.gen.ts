@@ -9,10 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PetRouteImport } from './routes/pet'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SummaryIdRouteImport } from './routes/summary.$id'
+import { Route as StudyIdRouteImport } from './routes/study.$id'
 import { Route as DeckIdRouteImport } from './routes/deck.$id'
 
+const PetRoute = PetRouteImport.update({
+  id: '/pet',
+  path: '/pet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
@@ -21,6 +35,16 @@ const LibraryRoute = LibraryRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SummaryIdRoute = SummaryIdRouteImport.update({
+  id: '/summary/$id',
+  path: '/summary/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyIdRoute = StudyIdRouteImport.update({
+  id: '/study/$id',
+  path: '/study/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DeckIdRoute = DeckIdRouteImport.update({
@@ -32,35 +56,87 @@ const DeckIdRoute = DeckIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pet': typeof PetRoute
   '/deck/$id': typeof DeckIdRoute
+  '/study/$id': typeof StudyIdRoute
+  '/summary/$id': typeof SummaryIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pet': typeof PetRoute
   '/deck/$id': typeof DeckIdRoute
+  '/study/$id': typeof StudyIdRoute
+  '/summary/$id': typeof SummaryIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pet': typeof PetRoute
   '/deck/$id': typeof DeckIdRoute
+  '/study/$id': typeof StudyIdRoute
+  '/summary/$id': typeof SummaryIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/library' | '/deck/$id'
+  fullPaths:
+    | '/'
+    | '/library'
+    | '/onboarding'
+    | '/pet'
+    | '/deck/$id'
+    | '/study/$id'
+    | '/summary/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/library' | '/deck/$id'
-  id: '__root__' | '/' | '/library' | '/deck/$id'
+  to:
+    | '/'
+    | '/library'
+    | '/onboarding'
+    | '/pet'
+    | '/deck/$id'
+    | '/study/$id'
+    | '/summary/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/library'
+    | '/onboarding'
+    | '/pet'
+    | '/deck/$id'
+    | '/study/$id'
+    | '/summary/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LibraryRoute: typeof LibraryRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PetRoute: typeof PetRoute
   DeckIdRoute: typeof DeckIdRoute
+  StudyIdRoute: typeof StudyIdRoute
+  SummaryIdRoute: typeof SummaryIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pet': {
+      id: '/pet'
+      path: '/pet'
+      fullPath: '/pet'
+      preLoaderRoute: typeof PetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -73,6 +149,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/summary/$id': {
+      id: '/summary/$id'
+      path: '/summary/$id'
+      fullPath: '/summary/$id'
+      preLoaderRoute: typeof SummaryIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study/$id': {
+      id: '/study/$id'
+      path: '/study/$id'
+      fullPath: '/study/$id'
+      preLoaderRoute: typeof StudyIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/deck/$id': {
@@ -88,7 +178,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LibraryRoute: LibraryRoute,
+  OnboardingRoute: OnboardingRoute,
+  PetRoute: PetRoute,
   DeckIdRoute: DeckIdRoute,
+  StudyIdRoute: StudyIdRoute,
+  SummaryIdRoute: SummaryIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
